@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Django-04-DjangoTemplate | Kinmfer's Blogs</title><meta name="keywords" content="Django,Web框架,后端"><meta name="author" content="Kinmfer,kinmfer@foxmail.com"><meta name="copyright" content="Kinmfer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="注意：  在django中，对于 { {    } }和{ %   % }，前后的  “{ {“  以及  “{ %”  中间是没有空格的，由于hexo渲染的问题，本篇文章的某些部分不得已在中间加空格，但切记是没有的！！！  模板在Django框架中，模板是可以帮助开发者快速生成呈现给用户页面的工具 模板的设计方式实现了我们MVT中VT的解耦，VT有 着N:M的关系，一个V可以调用任意T，一个T可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-04-DjangoTemplate">
+<meta property="og:url" content="https://kinmfer.github.io/2020/01/30/Django-04-DjangoTemplate/index.html">
+<meta property="og:site_name" content="Kinmfer&#39;s Blogs">
+<meta property="og:description" content="注意：  在django中，对于 { {    } }和{ %   % }，前后的  “{ {“  以及  “{ %”  中间是没有空格的，由于hexo渲染的问题，本篇文章的某些部分不得已在中间加空格，但切记是没有的！！！  模板在Django框架中，模板是可以帮助开发者快速生成呈现给用户页面的工具 模板的设计方式实现了我们MVT中VT的解耦，VT有 着N:M的关系，一个V可以调用任意T，一个T可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png">
+<meta property="article:published_time" content="2020-01-30T08:24:19.000Z">
+<meta property="article:modified_time" content="2020-05-26T06:59:00.098Z">
+<meta property="article:author" content="Kinmfer">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="Web框架">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kinmfer.github.io/2020/01/30/Django-04-DjangoTemplate/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c46ed77365f502de73543fbf10399875";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"C2N62A47W9","apiKey":"0c62f17095ec2a20c19657511a42c0b1","indexName":"Blogs","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇文章更新于","messageNext":"天前,内容可能已经过时"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Kinmfer","link":"链接: ","source":"来源: Kinmfer's Blogs","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-05-26 14:59:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = '1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kinmfer's Blogs</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Django-04-DjangoTemplate</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-01-30T08:24:19.000Z" title="发表于 2020-01-30 16:24:19">2020-01-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-05-26T06:59:00.098Z" title="更新于 2020-05-26 14:59:00">2020-05-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/Django/">Django</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>注意：</strong></p>
+<blockquote>
+<p>在django中，对于 { {    } }和{ %   % }，前后的  “{ {“  以及  “{ %”  中间是没有空格的，由于hexo渲染的问题，本篇文章的某些部分不得已在中间加空格，但切记是没有的！！！</p>
+</blockquote>
+<h1 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h1><p>在Django框架中，模板是可以帮助开发者快速生成呈现给用户<br>页面的工具</p>
+<p>模板的设计方式实现了我们MVT中VT的解耦，VT有 着N:M的关<br>系，一个V可以调用任意T，一个T可以供任意V使用</p>
+<p>模板处理分为两个过程<br>①加载<br>②渲染</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="模板主要有两个部分"><a href="#模板主要有两个部分" class="headerlink" title="模板主要有两个部分"></a>模板主要有两个部分</h2><p>①HTML静态代码<br>②动态插入的代码段(挖坑，填坑)</p>
+<p>模板中的动态代码段除了做基本的静态填充，还可以实现一些<br>基本的运算，转换和逻辑</p>
+<h2 id="模板中的变量"><a href="#模板中的变量" class="headerlink" title="模板中的变量"></a>模板中的变量</h2><p>视图传递给模板的数据</p>
+<p>遵守标识符规则<br>语法<code>&#123;&#123; var &#125;&#125;</code><br>如果变量不存在，则插入空字符串</p>
+<h2 id="模板中的点语法"><a href="#模板中的点语法" class="headerlink" title="模板中的点语法"></a>模板中的点语法</h2><ul>
+<li><p>字典查询         grades    grade</p>
+</li>
+<li><p>属性或者方法   grade.gname</p>
+</li>
+<li><p>索引             grades.0.gname</p>
+</li>
+</ul>
+<p>模板中的小弊端，调用对象的方法，不能传递参数</p>
+<h2 id="模板中的标签"><a href="#模板中的标签" class="headerlink" title="模板中的标签"></a>模板中的标签</h2><ul>
+<li>语法  <code> &#123; %  tag  % &#125;</code></li>
+<li>作用 1. 加载外部传入的变量<pre><code>2.在输出中创建文本
+3.控制循环或逻辑</code></pre>
+</li>
+</ul>
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><p>格式：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;%<span class="name"><span class="name">if</span></span> 表达式%&#125;</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endif</span></span> %&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span>表达式%&#125;</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">else</span></span> %&#125;</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endif</span></span> %&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="template-tag">&#123;%<span class="name"><span class="name">if</span></span>表达式%&#125;</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">elif</span></span>表达式%&#125;</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endif</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><p>格式：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;%<span class="name"><span class="name">for</span></span>变量<span class="keyword">in</span>列表%&#125;</span></span><br><span class="line"><span class="xml">	语句1</span></span><br><span class="line"><span class="xml">	# 当列表为空或不存在时,执行empty之后的语句</span></span><br><span class="line"><span class="xml">	</span><span class="template-tag">&#123;% <span class="name"><span class="name">empty</span></span> %&#125;</span></span><br><span class="line"><span class="xml">		语句2</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&#123;&#123; forloop.counter &#125;&#125;</code>表示当前是第几次循环，从1数数</li>
+<li><code>&#123;&#123; forloop.counter0&#125;&#125;</code>表示当前是第几次循环，从0数数</li>
+<li><code>&#123;&#123; forloop.revcounter&#125;&#125;</code>表示当前是第几次循环，倒着数数，到1停</li>
+<li><code>&#123;&#123; forloop.revcounter0&#125;&#125;</code>表示当前第几次循环，倒着数，到0停</li>
+<li><code>&#123;&#123; forloop.first&#125;&#125;</code>是否是第一个布尔值</li>
+<li><code>&#123;&#123; forloop.last&#125;&#125;</code>是否是最后一个布尔值</li>
+</ul>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
+<li><p>单行注释<br>{ #被注释掉的内容# }</p>
+</li>
+<li><p>多行注释</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#123;% comment %&#125;</span></span><br><span class="line"><span class="comment">	内容</span></span><br><span class="line"><span class="comment">&#123;% endcomment %&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="乘除"><a href="#乘除" class="headerlink" title="乘除"></a>乘除</h3><p><code>&#123; % widthratio 数 分母 分子 % &#125;</code></p>
+<h3 id="整除"><a href="#整除" class="headerlink" title="整除"></a>整除</h3><p><code>&#123; % if num|divisibleby:2 % &#125;</code></p>
+<h3 id="ifequal"><a href="#ifequal" class="headerlink" title="ifequal"></a>ifequal</h3><p>如果相等</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">ifequal</span></span> value1 value2 %&#125;</span><span class="xml"> # 如果value1等于value2</span></span><br><span class="line"><span class="xml">	语句</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endifequal</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ifnotequal"><a href="#ifnotequal" class="headerlink" title="ifnotequal"></a>ifnotequal</h3><p>如果不相等</p>
+<h3 id="url"><a href="#url" class="headerlink" title="url"></a>url</h3><p>反向解析<br><code>&#123; % url &#39;namespace:name&#39; p1 p2 % &#125;</code></p>
+<h3 id="csrf-token"><a href="#csrf-token" class="headerlink" title="csrf_token"></a>csrf_token</h3><p>用于跨站请求伪造保护的<br>格式<code>&#123; % csrf_ token % &#125;</code></p>
+<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3><p><code>&#123; &#123;var|过滤器&#125; &#125;</code><br>作用:在变量显示前修改</p>
+<ul>
+<li><p>add  参数 加 数字相加 字符串拼接 列表拼接<br><code>&#123; &#123; p.page| add:5 &#125; &#125;</code></p>
+</li>
+<li><p>没有减法过滤器，但是加法里可以加负数<br><code>&#123; &#123; p.page| add:-5&#125; &#125;</code></p>
+</li>
+<li><p>lower  小写<br><code>&#123; &#123; p.pname|lower &#125; &#125;</code></p>
+</li>
+<li><p>upper  大写</p>
+<p><code>&#123; &#123; p.pname|upper&#125; &#125;</code></p>
+</li>
+<li><p>default:参数 变量不存在或者为空 显示默认值</p>
+</li>
+<li><p>filesizeformat 人性化显示文件大小 kb PB</p>
+</li>
+<li><p>title 首字母大写</p>
+</li>
+<li><p>ljust:20 左对齐</p>
+</li>
+<li><p>rjust:20 右对齐</p>
+</li>
+<li><p>center:20 居中</p>
+</li>
+<li><p>length 长度</p>
+</li>
+<li><p>slice:’::’ 切片</p>
+</li>
+<li><p>join:’_’ 拼接列表</p>
+</li>
+<li><p>first 取第一个元素</p>
+</li>
+<li><p>last 取最后一个元素</p>
+</li>
+<li><p>safe 取消对HTML代码的转义</p>
+</li>
+<li><p>date:’Y-m-d H:i:s’ 日期的格式化</p>
+</li>
+<li><p>truncatechars:18 文本上的时候进行截断 按18截断</p>
+</li>
+</ul>
+<p>过滤器可以传递参数，参数需要使用引号引起来;</p>
+<p>比如join:                  <code>&#123; &#123; students|join&#39;=&#39; &#125; &#125;</code></p>
+<p>默认值:default,格式<code>&#123; &#123;var|default value&#125; &#125;</code></p>
+<p>如果变量没有被提供或者为False，空，会使用默认值</p>
+<p>根据指定格式转换日期为字符串，处理时间的就是针对date进行的转换<br>              <code>&#123; &#123; dateVal | date:&#39;y-m-d&#39; &#125; &#125;</code></p>
+<p>常见过滤器使用方法可以参照</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pythonyeyu/p/10115769.html">https://www.cnblogs.com/pythonyeyu/p/10115769.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/tonghuaxl/article/details/80406884">https://blog.csdn.net/tonghuaxl/article/details/80406884</a></li>
+</ul>
+<h3 id="HTML转义"><a href="#HTML转义" class="headerlink" title="HTML转义"></a>HTML转义</h3><p>将接收到的数据当成普通字符串处理还是当成HTML代码来渲染的一个问题</p>
+<ul>
+<li><p>渲染成html:<code>&#123;&#123; code |safe&#125;&#125;</code>(谨慎使用)</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">autoescape</span></span> off%&#125;</span></span><br><span class="line"><span class="xml">    code</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endautoescape</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不想渲染</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">autoescape</span></span> on%&#125;</span></span><br><span class="line"><span class="xml">    code</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endautoescape</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><p>跨站请求伪造</p>
+<p>某些恶意网站包含链接，表单，按钮，Js利用登陆用户在浏览器中的认证信息，进行非法操作，攻击服务，破坏数据</p>
+<p>在表单中添加<br><code>&#123; % csrf_ _token % &#125;</code><br>在settings中的中间件MIDDLEWARE中配置打开<br><code>&#39;django.middleware.csrf.CsrfViewMiddleware&#39;,</code></p>
+<h2 id="模板中的继承"><a href="#模板中的继承" class="headerlink" title="模板中的继承"></a>模板中的继承</h2><p>模板也可以继承</p>
+<ul>
+<li>关键字block:挖坑，用来规划布局<ul>
+<li>首次出现，代表规划</li>
+<li>第二次出现，代表填充以前的规划</li>
+<li>第三次出现，代表填充以前的规则，默认动作是覆盖<ul>
+<li>如果不想覆盖，可以添加<code>&#123;&#123;block.super&#125;&#125;</code></li>
+<li>这样就实现了增量式操作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">block</span></span> XXX%&#125;</span></span><br><span class="line"><span class="xml">	code</span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endblock</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>extends继承，写在开头位置</li>
+<li><code>&#123; % extends &#39;父模板路径&#39; % &#125;</code></li>
+<li>include:加载模板进行渲染，可以将页面作为一部分，嵌入到其他页面中<br>格式    <code>&#123; % include &#39;模板文件&#39; % &#125;</code></li>
+<li>block+extends<ul>
+<li>化整为零</li>
+</ul>
+</li>
+<li>include+block<ul>
+<li>由零聚一</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>三个标签可以和混合使用，能用block+extends搞定的，就尽量不要使用include，因为效率比较低</li>
+<li>include可以单独使用</li>
+<li>如果已经继承自一个父模板，子模版重写自己的页面结构，是不会生效的，只能在已有的“坑”中写。</li>
+</ul>
+<h1 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h1><p>在工程中一般把css，js，img等固定的资源放入新建的static文件夹，并在settings中注册</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1QAXX4.png" alt="1QAXX4.png"></p>
+<p>以css为例</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1QEQ9f.png" alt="1QEQ9f.png"></p>
+<p>在页面的顶端导入<code>&#123; % load  static % &#125;</code>或者<code>&#123; % load  staticfiles % &#125;</code></p>
+<p>链接即可写成<code>href=&quot;&#123; % static &#39;css/demo.css&#39; % &#125;&quot;</code>式的绝对路径</p>
+<p><strong>坑点：</strong> </p>
+<ul>
+<li>仅在debug模式下可以使用</li>
+<li>以后需要单独处理</li>
+</ul>
+<h1 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h1><p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1lquE4.png" alt="1lquE4.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:kinmfer@foxmail.com">Kinmfer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://kinmfer.github.io/2020/01/30/Django-04-DjangoTemplate/">https://kinmfer.github.io/2020/01/30/Django-04-DjangoTemplate/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Kinmfer.github.io" target="_blank">Kinmfer's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Django/">Django</a><a class="post-meta__tags" href="/tags/Web%E6%A1%86%E6%9E%B6/">Web框架</a><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/01/30/Django-05-DjangoView-01/"><img class="prev-cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Django-05-DjangoView-01</div></div></a></div><div class="next-post pull-right"><a href="/2020/01/28/Django-02-DjangoModel-01/"><img class="next-cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Django-02-DjangoModel-01</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/02/01/Django-03-DjangoModel-02/" title="Django-03-DjangoModel-02"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-01</div><div class="title">Django-03-DjangoModel-02</div></div></a></div><div><a href="/2020/02/02/Django-06-DjangoView-02/" title="Django-06-DjangoView-02"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-02</div><div class="title">Django-06-DjangoView-02</div></div></a></div><div><a href="/2020/03/17/Django-07-拓展-01/" title="Django-07-拓展-01"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-07-拓展-01</div></div></a></div><div><a href="/2020/03/17/Django-08-DjangoCache/" title="Django-08-DjangoCache"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-08-DjangoCache</div></div></a></div><div><a href="/2020/03/17/Django-09-中间件/" title="Django-09-中间件"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-09-中间件</div></div></a></div><div><a href="/2020/03/17/Django-11-验证码/" title="Django-11-验证码"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-11-验证码</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzMi8yODQxMw=="></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kinmfer</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kinmfer"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Kinmfer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:kinmfer@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.</span> <span class="toc-text">模板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E4%B8%BB%E8%A6%81%E6%9C%89%E4%B8%A4%E4%B8%AA%E9%83%A8%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">模板主要有两个部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">2.2.</span> <span class="toc-text">模板中的变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E7%82%B9%E8%AF%AD%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">模板中的点语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">2.4.</span> <span class="toc-text">模板中的标签</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if"><span class="toc-number">2.4.1.</span> <span class="toc-text">if</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for"><span class="toc-number">2.4.2.</span> <span class="toc-text">for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">2.4.3.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%98%E9%99%A4"><span class="toc-number">2.4.4.</span> <span class="toc-text">乘除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E9%99%A4"><span class="toc-number">2.4.5.</span> <span class="toc-text">整除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifequal"><span class="toc-number">2.4.6.</span> <span class="toc-text">ifequal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifnotequal"><span class="toc-number">2.4.7.</span> <span class="toc-text">ifnotequal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#url"><span class="toc-number">2.4.8.</span> <span class="toc-text">url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#csrf-token"><span class="toc-number">2.4.9.</span> <span class="toc-text">csrf_token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">2.4.10.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML%E8%BD%AC%E4%B9%89"><span class="toc-number">2.4.11.</span> <span class="toc-text">HTML转义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF"><span class="toc-number">2.4.12.</span> <span class="toc-text">CSRF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF"><span class="toc-number">2.5.</span> <span class="toc-text">模板中的继承</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90"><span class="toc-number">3.</span> <span class="toc-text">静态资源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">思维导图</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mongodb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-14-MongoDB"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB">综合架构-DBA-14-MongoDB</a><time datetime="2020-09-28T06:45:34.000Z" title="发表于 2020-09-28 14:45:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/redis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-13-Redis"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis">综合架构-DBA-13-Redis</a><time datetime="2020-09-28T06:45:04.000Z" title="发表于 2020-09-28 14:45:04">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-12-Mycat"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat">综合架构-DBA-12-Mycat</a><time datetime="2020-09-28T06:44:34.000Z" title="发表于 2020-09-28 14:44:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-11-Atlas"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas">综合架构-DBA-11-Atlas</a><time datetime="2020-09-28T06:43:19.000Z" title="发表于 2020-09-28 14:43:19">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-10-MHA高可用技术"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术">综合架构-DBA-10-MHA高可用技术</a><time datetime="2020-09-28T06:42:46.000Z" title="发表于 2020-09-28 14:42:46">2020-09-28</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Kinmfer</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://kinmfer.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="//code.tidio.co/mzqu2o1lbhle9bvhab8bexgtiyxgkheb.js" async="async"></script><script>function onTidioChatApiReady() {
+  window.tidioChatApi.hide();
+  window.tidioChatApi.on("close", function() {
+    window.tidioChatApi.hide();
+  });
+}
+if (window.tidioChatApi) {
+  window.tidioChatApi.on("ready", onTidioChatApiReady);
+} else {
+  document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+}
+
+var chatBtnFn = () => {
+  document.getElementById("chat_btn").addEventListener("click", function(){
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
+  });
+}
+chatBtnFn()
+</script></div></body></html>

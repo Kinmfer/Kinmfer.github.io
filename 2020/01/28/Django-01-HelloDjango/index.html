@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Django-1:HelloDjango | Kinmfer's Blogs</title><meta name="keywords" content="Django,Web框架,后端"><meta name="author" content="Kinmfer,kinmfer@foxmail.com"><meta name="copyright" content="Kinmfer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Django简介Django是一个开放源代码的Web应用框架，由Python写成。采用了MTV的框架模式，即模型M，视图V和模版T。它最初是被开发来用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站的，即是CMS（内容管理系统）软件。并于2005年7月在BSD许可证下发布。这套框架是以比利时的吉普赛爵士吉他手Django Reinhardt来命名的。 官网：https:&#x2F;&#x2F;www.djangop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-1:HelloDjango">
+<meta property="og:url" content="https://kinmfer.github.io/2020/01/28/Django-01-HelloDjango/index.html">
+<meta property="og:site_name" content="Kinmfer&#39;s Blogs">
+<meta property="og:description" content="Django简介Django是一个开放源代码的Web应用框架，由Python写成。采用了MTV的框架模式，即模型M，视图V和模版T。它最初是被开发来用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站的，即是CMS（内容管理系统）软件。并于2005年7月在BSD许可证下发布。这套框架是以比利时的吉普赛爵士吉他手Django Reinhardt来命名的。 官网：https:&#x2F;&#x2F;www.djangop">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png">
+<meta property="article:published_time" content="2020-01-28T08:40:04.000Z">
+<meta property="article:modified_time" content="2020-05-26T06:58:33.174Z">
+<meta property="article:author" content="Kinmfer">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="Web框架">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kinmfer.github.io/2020/01/28/Django-01-HelloDjango/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c46ed77365f502de73543fbf10399875";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"C2N62A47W9","apiKey":"0c62f17095ec2a20c19657511a42c0b1","indexName":"Blogs","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇文章更新于","messageNext":"天前,内容可能已经过时"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Kinmfer","link":"链接: ","source":"来源: Kinmfer's Blogs","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-05-26 14:58:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = '1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kinmfer's Blogs</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Django-1:HelloDjango</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-01-28T08:40:04.000Z" title="发表于 2020-01-28 16:40:04">2020-01-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-05-26T06:58:33.174Z" title="更新于 2020-05-26 14:58:33">2020-05-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/Django/">Django</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Django简介"><a href="#Django简介" class="headerlink" title="Django简介"></a>Django简介</h1><p>Django是一个开放<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%BA%90%E4%BB%A3%E7%A0%81/3814213">源代码</a>的Web应用框架，由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Python/407313">Python</a>写成。采用了MTV的框架模式，即模型M，视图V和模版T。它最初是被开发来用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站的，即是CMS（内容管理系统）软件。并于2005年7月在BSD许可证下发布。这套框架是以比利时的吉普赛爵士吉他手Django Reinhardt来命名的。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.djangoproject.com/">https://www.djangoproject.com/</a></p>
+<h1 id="开发环境配置"><a href="#开发环境配置" class="headerlink" title="开发环境配置"></a>开发环境配置</h1><p>本次Django项目使用的版本是Django2.2  LTS版本</p>
+<p>默认建立在Ubuntu系统上并且使用虚拟环境</p>
+<p>具体方法请自行百度</p>
+<h1 id="CS-BS模型介绍"><a href="#CS-BS模型介绍" class="headerlink" title="CS,BS模型介绍"></a>CS,BS模型介绍</h1><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/8NbSCq"><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/8NbSCq.png" alt="8NbSCq.png"></a></p>
+<p>C/S结构，即Client/Server(客户机/服务器)结构，是大家熟知的软件系统体系结构，通过将任务合理分配到Client端和Server端，降低了系统的通讯开销，可以充分利用两端硬件环境的优势。早期的软件系统多以此作为首选设计标准。</p>
+<p>（用的是ip，tcp/udp通信协议）<br>B/S结构，即Browser/Server(浏览器/服务器)结构，是随着Internet技术的兴起，对C/S结构的一种变化或者改进的结构。在这种结构下，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现，但是主要事务逻辑在服务器端实现，形成所谓3-tier结构。 （采用的是上层的http或者https通信协议）<br>B/S结构，主要是利用了不断成熟的WWW浏览器技术，结合浏览器的多种scrīpt语言(VBscrīpt、Javascrīpt…)和ActiveX技术，用通用浏览器就实现了原来需要复杂专用软件才能实现的强大功能，并节约了开发成本，是一种全新的软件系统构造技术。随着Windows 98/Windows 2000将浏览器技术植入操作系统内部，这种结构更成为当今应用软件的首选体系结构。<br>C/S 与 B/S 区别：<br>Client/Server是建立在局域网的基础上的.Browser/Server是建立在广域网的基础上的.<br>1．硬件环境不同<br>C/S 一般建立在专用的网络上, 小范围里的网络环境, 局域网之间再通过专门服务器提供连接和数据交换服务.<br>B/S 建立在广域网之上的, 不必是专门的网络硬件环境,例如电话上网, 租用设备. 信息管理. 有比C/S更强的适应范围, 一般只要有操作系统和浏览器就行</p>
+<p>2．对安全要求不同<br>C/S 一般面向相对固定的用户群, 对信息安全的控制能力很强. 一般高度机密的信息系统采用C/S 结构适宜. 可以通过B/S发布部分可公开信息.<br>B/S 建立在广域网之上, 对安全的控制能力相对弱, 面向是不可知的用户群.</p>
+<p>3．对程序架构不同<br>C/S 程序可以更加注重流程, 可以对权限多层次校验, 对系统运行速度可以较少考虑.<br>B/S 对安全以及访问速度的多重的考虑, 建立在需要更加优化的基础之上. 比C/S有更高的要求 B/S结构的程序架构是发展的趋势, 从MS的.Net系列的BizTalk 2000 Exchange 2000等, 全面支持网络的构件搭建的系统. SUN 和IBM推的JavaBean 构件技术等,使 B/S更加成熟.</p>
+<p>4．软件重用不同<br>C/S 程序可以不可避免的整体性考虑, 构件的重用性不如在B/S要求下的构件的重用性好.<br>B/S 对的多重结构,要求构件相对独立的功能. 能够相对较好的重用.</p>
+<p>5．系统维护不同<br>系统维护在是软件生存周期中,开销大, ——-重要<br>C/S 程序由于整体性, 必须整体考察, 处理出现的问题以及系统升级. 升级难. 可能是再做一个全新的系统<br>B/S 构件组成,方面构件个别的更换,实现系统的无缝升级. 系统维护开销减到最小.用户从网上自己下载安装就可以实现升级.</p>
+<p>6．处理问题不同<br>C/S 程序可以处理用户面固定, 并且在相同区域, 安全要求高需求, 与操作系统相关. 应该都是相同的系统<br>B/S 建立在广域网上, 面向不同的用户群, 分散地域, 这是C/S无法作到的. 与操作系统平台关系最小.</p>
+<p>7．用户接口不同<br>C/S 多是建立的Window平台上,表现方法有限,对程序员普遍要求较高<br>B/S 建立在浏览器上, 有更加丰富和生动的表现方式与用户交流. 并且大部分难度减低,减低开发成本.</p>
+<p>8．信息流不同<br>C/S 程序一般是典型的中央集权的机械式处理, 交互性相对低<br>B/S 信息流向可变化, B-B B-C B-G等信息、流向的变化, 更象交易中心</p>
+<h1 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h1><p>MVC 是一种使用 MVC（Model View Controller 模型-视图-控制器）设计创建 Web 应用程序的模式：</p>
+<ul>
+<li>Model（模型）表示应用程序核心（比如数据库记录列表）。</li>
+<li>View（视图）显示数据（数据库记录）。</li>
+<li>Controller（控制器）处理输入（写入数据库记录）。</li>
+</ul>
+<p>MVC 模式同时提供了对 HTML、CSS 和 JavaScript 的完全控制。</p>
+<p><strong>Model（模型）</strong>是应用程序中用于处理应用程序数据逻辑的部分。<br>　　通常模型对象负责在数据库中存取数据。</p>
+<p><strong>View（视图）</strong>是应用程序中处理数据显示的部分。<br>　　通常视图是依据模型数据创建的。</p>
+<p><strong>Controller（控制器）</strong>是应用程序中处理用户交互的部分。<br>　　通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</p>
+<p>MVC 分层有助于管理复杂的应用程序，因为您可以在一个时间内专门关注一个方面。例如，您可以在不依赖业务逻辑的情况下专注于视图设计。同时也让应用程序的测试更加容易。</p>
+<p>MVC 分层同时也简化了分组开发。不同的开发人员可同时开发视图、控制器逻辑和业务逻辑。</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1QDw0e.png" alt="1QDw0e.png"></p>
+<h1 id="MTV设计模式"><a href="#MTV设计模式" class="headerlink" title="MTV设计模式"></a>MTV设计模式</h1><p>Django的MTV模式本质上和MVC是一样的，也是为了各组件间的松耦合关系，只是定义上有些许不同，Django的MTV分别是指：</p>
+<p><strong>M 代表模型（Model）：</strong>负责业务对象和数据库的关系映射（ORM）。</p>
+<p><strong>T  代表模板（Tempalte）：</strong>负责如何把页面展示给用户（html）。</p>
+<p><strong>V  代表视图（View）：</strong>负责业务逻辑，并在适当的时候调用Model和Template。</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1QDc1P.png" alt="1QDc1P.png"></p>
+<h1 id="创建一个Django项目"><a href="#创建一个Django项目" class="headerlink" title="创建一个Django项目"></a>创建一个Django项目</h1><p>在终端输入<code>django-admin startproject xxx</code>创建一个名字为xxx的项目</p>
+<p>查看默认目录结构</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1KbkvD.png" alt="1KbkvD.png"></p>
+<p>在终端输入<code>python manage.py runserver</code>启动调试服务器，默认ip：127.0.0.1，默认端口：8000</p>
+<p>在浏览器中打开会出现如下画面，即代表着初始化成功</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1KbMPP.png" alt="1KbMPP.png"></p>
+<p><strong>注意</strong>：pycharm中打开的文件夹是manage.py的上一层目录</p>
+<h1 id="Django目录介绍"><a href="#Django目录介绍" class="headerlink" title="Django目录介绍"></a>Django目录介绍</h1><ul>
+<li>manage.py:是Django用于管理本项目的命令行工具，之后进行站点运行，数据库自动生成等都是通过本文件完成。</li>
+<li>HelloDiango/_ <em>init</em> _ .py告诉python该目录是一个python包， 暂无内容，后期一些工具的初始化可能会用到</li>
+<li>HelloDiango/settings.py Django项目的配置文件，默认状态其中定义了本项目引用的组件，项目名，数据库，静态资源等。</li>
+<li>HelloDiango/urls.py 维护项目的URL路由映射，即定义当客户端访问时由哪个模块进行响应。</li>
+<li>HelloDiango/wsgi.py.定义WSGI的接口信息，主要用于服务器集成，通常本文件生成后无需改动。</li>
+</ul>
+<p>settings.py文件部分介绍(改动部分在代码中会有注释介绍)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Build paths inside the project like this: os.path.join(BASE_DIR, ...)</span></span><br><span class="line">BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># SECURITY WARNING: keep the secret key used in production secret!</span></span><br><span class="line">SECRET_KEY = <span class="string">&#x27;*reqgfy9el+d94q#&amp;ons-n&amp;_apyz9b^3v%nln)h0r89vt77br$&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># SECURITY WARNING: don&#x27;t run with debug turned on in production!</span></span><br><span class="line">DEBUG = <span class="literal">True</span></span><br><span class="line"><span class="comment">#这里设为&quot;*&quot;代表都可访问</span></span><br><span class="line">ALLOWED_HOSTS = [<span class="string">&#x27;*&#x27;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Application definition，即注册的app，在每次新建一个app后，都要在INSTALLED_APPS这个列表中进行注册，这里以App为例</span></span><br><span class="line"></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">&#x27;django.contrib.admin&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.auth&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.contenttypes&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.staticfiles&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">]</span><br><span class="line"><span class="comment">#中间件</span></span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 根路由</span></span><br><span class="line">ROOT_URLCONF = <span class="string">&#x27;HelloDjango.urls&#x27;</span></span><br><span class="line"><span class="comment"># 模板</span></span><br><span class="line">TEMPLATES = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;BACKEND&#x27;</span>: <span class="string">&#x27;django.template.backends.django.DjangoTemplates&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;DIRS&#x27;</span>: [],</span><br><span class="line">        <span class="string">&#x27;APP_DIRS&#x27;</span>: <span class="literal">True</span>,</span><br><span class="line">        <span class="string">&#x27;OPTIONS&#x27;</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;context_processors&#x27;</span>: [</span><br><span class="line">                <span class="string">&#x27;django.template.context_processors.debug&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;django.template.context_processors.request&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;django.contrib.auth.context_processors.auth&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;django.contrib.messages.context_processors.messages&#x27;</span>,</span><br><span class="line">            ],</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">WSGI_APPLICATION = <span class="string">&#x27;HelloDjango.wsgi.application&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Database</span></span><br><span class="line"><span class="comment"># https://docs.djangoproject.com/en/2.2/ref/settings/#databases</span></span><br><span class="line"></span><br><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">&#x27;default&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;ENGINE&#x27;</span>: <span class="string">&#x27;django.db.backends.sqlite3&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: os.path.join(BASE_DIR, <span class="string">&#x27;db.sqlite3&#x27;</span>),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Password validation</span></span><br><span class="line"><span class="comment"># https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators</span></span><br><span class="line"></span><br><span class="line">AUTH_PASSWORD_VALIDATORS = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;django.contrib.auth.password_validation.UserAttributeSimilarityValidator&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;django.contrib.auth.password_validation.MinimumLengthValidator&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;django.contrib.auth.password_validation.CommonPasswordValidator&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;NAME&#x27;</span>: <span class="string">&#x27;django.contrib.auth.password_validation.NumericPasswordValidator&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Internationalization</span></span><br><span class="line"><span class="comment"># https://docs.djangoproject.com/en/2.2/topics/i18n/</span></span><br><span class="line"><span class="comment"># 一般改为zh-hans,代表中文</span></span><br><span class="line">LANGUAGE_CODE = <span class="string">&#x27;zh-hans&#x27;</span></span><br><span class="line"><span class="comment"># 一般改位北京时间，但是得注意是上海</span></span><br><span class="line">TIME_ZONE = <span class="string">&#x27;Asia/Shanghai&#x27;</span></span><br><span class="line"></span><br><span class="line">USE_I18N = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">USE_L10N = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">USE_TZ = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Static files (CSS, JavaScript, Images)</span></span><br><span class="line"><span class="comment"># https://docs.djangoproject.com/en/2.2/howto/static-files/</span></span><br><span class="line"></span><br><span class="line">STATIC_URL = <span class="string">&#x27;/static/&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="测试服务器的启动"><a href="#测试服务器的启动" class="headerlink" title="测试服务器的启动"></a>测试服务器的启动</h1><p><code>python manager.py runserver [[ip:]port]</code></p>
+<p>可以直接进行服务运行默认执行起来的端口是8000,也可以自己指定ip和端口</p>
+<p>ip指定为0.0.0.0的时候，匹配本机的全部ip</p>
+<p>浏览器访问:localhost:8000可以看到服务器启动成功</p>
+<h1 id="迁移数据-pycharm连接数据库"><a href="#迁移数据-pycharm连接数据库" class="headerlink" title="迁移数据,pycharm连接数据库"></a>迁移数据,pycharm连接数据库</h1><p>迁移的概念:就是将模型映射到数据库的过程</p>
+<p>生成迁移:<code>python manager.py makemigrations</code></p>
+<p>执行迁移:<code>python mananger.py migrate</code></p>
+<p>在初次启动服务器的时候会出现红字</p>
+<p><code>You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions. Run &#39;python manage.py migrate&#39; to apply them.</code></p>
+<p>这个是因为数据没有迁移</p>
+<p>在终端中输入<code>python manage.py migrate</code>进行数据迁移，即可消失</p>
+<p>介绍DataBase模块，可以直接连接操作数据库Sqlite和MySQL</p>
+<ul>
+<li>在settings.py文件中，DATABASES改为如下</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;ENGINE&#x27;</span>:<span class="string">&#x27;django.db.backends.mysql&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;NAME&#x27;</span>:<span class="string">&#x27;yourMySQLname&#x27;</span>,<span class="comment"># 自定义</span></span><br><span class="line"><span class="string">&#x27;USER&#x27;</span>:<span class="string">&#x27;root&#x27;</span>,<span class="comment"># 自定义</span></span><br><span class="line"><span class="string">&#x27;PASSWORD&#x27;</span>:<span class="string">&#x27;yourpassword&#x27;</span>,<span class="comment"># 自定义</span></span><br><span class="line"><span class="string">&#x27;HOST&#x27;</span>:<span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;PORT&#x27;</span>:<span class="string">&#x27;3306&#x27;</span>,</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其次在MySQL中建立表，在pycharm中连接</li>
+<li>最后终端执行迁移</li>
+</ul>
+<p><strong>注意</strong>：在执行迁移的时候可能会出现如下错误</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">django.core.exceptions.ImproperlyConfigured: Error loading MySQLdb module: No module named <span class="string">&#x27;MySQLdb&#x27;</span> .</span><br><span class="line">Did you install mysqlclient or MySQL-python?</span><br></pre></td></tr></table></figure>
+
+<p><strong>填坑</strong>：</p>
+<p>首先介绍一下python中常用的MySQL库</p>
+<ul>
+<li>mysqlclient<ul>
+<li>python2，3都能直接使用</li>
+<li>致命缺点<ul>
+<li>对msql安装又要求，必须指定位置存在配置文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>python-mysql<ul>
+<li>支持python2，不支持python3</li>
+</ul>
+</li>
+<li>pymysql<ul>
+<li>python2，python3都支持</li>
+<li>还可以伪装成前面的库</li>
+</ul>
+</li>
+</ul>
+<p>因此要在项目的_ <em>init</em> _.py文件中加入如下代码进行伪装</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="创建一个应用"><a href="#创建一个应用" class="headerlink" title="创建一个应用"></a>创建一个应用</h1><p>在终端输入<code>django-admin startproject xxx</code>或者<code>python manage.py startapp xxx</code>创建一个名字为xxx的app</p>
+<p>查看目录结构</p>
+<p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1KbwGV.png" alt="1KbwGV.png"></p>
+<p>使用应用前需要将应用配置到项目中，在settings.py中将 应用加入到INSTALLED_ APPS选项中</p>
+<h1 id="项目目录介绍"><a href="#项目目录介绍" class="headerlink" title="项目目录介绍"></a>项目目录介绍</h1><ul>
+<li>_ <em>init</em> _ .py:其中暂无内 容，使得app成为一个包</li>
+<li>admin.py:管理站点模型的声明文件，默认为空</li>
+<li>apps.py:应用信息定义文件，在其中生成了AppConfig,该类用于定义应用名等数据</li>
+<li>models.py:添加模型层数据类文件</li>
+<li>views.py:定义URL相应函数(路由规则)</li>
+<li>migrations包:自动生成，生成迁移文件的</li>
+<li>tests.py:测试代码文件</li>
+</ul>
+<h1 id="基本视图"><a href="#基本视图" class="headerlink" title="基本视图"></a>基本视图</h1><ul>
+<li>首先我们在views.py中建立一个路由响应函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">welcome</span>(<span class="params">request</span>):</span></span><br><span class="line">	<span class="keyword">return</span> HttpResponse(<span class="string">&#x27;HelloDjango&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接着我们在urls中进行注册</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> App <span class="keyword">import</span> views</span><br><span class="line">path(<span class="string">&#x27;welcome/&quot;,views.welcome)</span></span><br></pre></td></tr></table></figure>
+
+<p>基于模块化的设计，我们通常会在每个app中定义自己的urls</p>
+<p>在项目的urls中将app的urls包含进来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> include</span><br><span class="line">path(<span class="string">&#x27;welcome/&quot; ,include(&#x27;</span>App.urls<span class="string">&#x27;))</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h1><p>模板实际上就是我们用HTML写好的页面</p>
+<p>创建模板文件夹,两种:</p>
+<ul>
+<li><p>在工程目录的需要注册</p>
+<p>settings中 的TEMPLATES中的DIRS中添加<code>os.path.join(BASE_ DIR,&#39;templates&#39;)</code></p>
+<p>在模板文件夹中创建模板文件</p>
+</li>
+<li><p>在views中去加载渲染模板</p>
+</li>
+</ul>
+<ol>
+<li><pre><code class="python">from django.template import loader
+template = loader.get_ template(&#39;xxx&#39;)
+return HttpResponse(template.render())
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   **注意**：此种方法在注册时需要改变：&#96;xxx.apps.xxxConfig&#96;</span><br><span class="line"></span><br><span class="line">2. &#96;return render(request,&#39;xx&#39;)&#96;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 定义模型（简单例子）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- 定义年级</span><br><span class="line"></span><br><span class="line">  &#96;&#96;&#96;python</span><br><span class="line">  class Grade (models.Model) :</span><br><span class="line">      gname &#x3D; models.CharField(max_length&#x3D;10)</span><br><span class="line">      gdate &#x3D; models.Date TimeField()</span><br><span class="line">      ggirlnum &#x3D; models.IntegerField()</span><br><span class="line">      gboynum &#x3D; models.IntegerField()</span><br><span class="line">      isDelete &#x3D; models.BooleanField()</span><br><span class="line">  </span><br></pre></td></tr></table></figure></code></pre>
+</li>
+</ol>
+<ul>
+<li><p>定义学生</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Students</span>(<span class="params">models.Model</span>):</span></span><br><span class="line">    sname = models.CharField(max_ length=<span class="number">20</span>)</span><br><span class="line">    sgender = models.BooleanField(default=<span class="literal">True</span>)</span><br><span class="line">    sage = models.IntegerField()</span><br><span class="line">    sinfo = models.CharField(max_ length=<span class="number">20</span>)</span><br><span class="line">    isDelete = models .BooleanField(default=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment">#关联外键</span></span><br><span class="line">    sgrade = models.ForeignKey(Grade,on_delete=models.CASCADE)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<p>在django2.0后，定义外键和一对一关系的时候需要加on_delete选项，此参数为了避免两个表里的数据不一致问题，不然会报错：TypeError: <strong>init</strong>() missing 1 required positional argument: ‘on_delete’</p>
+<p>参数说明：<br>            on_delete有CASCADE、PROTECT、SET_NULL、SET_DEFAULT、SET()五个可选择的值，一般情况下使用CASCADE就可以了。<br>            CASCADE：此值设置，是级联删除。<br>            PROTECT：此值设置，是会报完整性错误。<br>            SET_NULL：此值设置，会把外键设置为null，前提是允许为null。<br>            SET_DEFAULT：此值设置，会把设置为外键的默认值。<br>            SET()：此值设置，会调用外面的值，可以是一个函数。</p>
+<h1 id="测试数据模型"><a href="#测试数据模型" class="headerlink" title="测试数据模型"></a>测试数据模型</h1><p>进入python shell: <code>python manage.py shell</code><br>导入包: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> App.models ,<span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> diango.utils <span class="keyword">import</span> timezone</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> *</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>数据测试增删改查</p>
+<ul>
+<li><p>查询:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">类名.obiects.<span class="built_in">all</span>()</span><br><span class="line">Grade.obiects.<span class="built_in">all</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入数据:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">grade_one= Grade()</span><br><span class="line">grad_one_gname= <span class="string">&#x27;class1&#x27;</span></span><br><span class="line">grade_one_gdate_datetime(year=<span class="number">2020</span>,month=<span class="number">1</span>,day=<span class="number">1</span>)</span><br><span class="line">grade_one_ggirlnum=<span class="number">5</span></span><br><span class="line">grade_one_gboynum= <span class="number">60</span></span><br><span class="line">grade_one_save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看某个指定对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">类名.objects.get(pk=<span class="number">1</span>)</span><br><span class="line">Grade.objects.get(pk=<span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">模型对象.属性=属性值</span><br><span class="line">模型对象.save()</span><br><span class="line">grade_one_gboynum = <span class="number">55</span></span><br><span class="line">grade_one_save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">模型对象.delete()</span><br><span class="line">grade_ one.delete()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试关联对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stu = Students()</span><br><span class="line">stu.sname=<span class="string">&#x27;Tom&#x27;</span></span><br><span class="line">stu.sgender=<span class="literal">True</span></span><br><span class="line">stu.sage= <span class="number">20</span></span><br><span class="line">stu.sinfo=<span class="string">&#x27;小天才&#x27;</span></span><br><span class="line">stu.sgrade=grade_one</span><br><span class="line">stu.save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获得关联对象集合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对象名.关联的类名小写_ set.all()</span></span><br><span class="line">grade_ one.student <span class="built_in">set</span>.<span class="built_in">all</span>()<span class="comment">#获取班级中的所有同学</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h1 id="结合使用"><a href="#结合使用" class="headerlink" title="结合使用"></a>结合使用</h1><ul>
+<li><p>在urls配置路由规则</p>
+</li>
+<li><p>在views中调用models中的函数进行查询</p>
+</li>
+<li><p>在views中对模板进行渲染</p>
+</li>
+<li><p>模板获取views中传过来的数据</p>
+</li>
+<li><p>渲染后的模板显示给用户挖坑<br>表达式</p>
+<p>而填坑需要构建context的参数</p>
+<p>如：</p>
+<p>context={</p>
+<p>​    ‘student’:’小明’</p>
+<p>}</p>
+</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li>django简介：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/django/61531?fr=aladdin">https://baike.baidu.com/item/django/61531?fr=aladdin</a></li>
+<li>CS/BS模型介绍：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43025071/article/details/99415216">https://blog.csdn.net/weixin_43025071/article/details/99415216</a></li>
+<li>MVC模型介绍：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MVC%E6%A1%86%E6%9E%B6/9241230?fromtitle=MVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&fromid=8160955&fr=aladdin">https://baike.baidu.com/item/MVC%E6%A1%86%E6%9E%B6/9241230?fromtitle=MVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&amp;fromid=8160955&amp;fr=aladdin</a></li>
+<li>MTV模型介绍：<a target="_blank" rel="noopener" href="https://blog.csdn.net/acs713/article/details/40651457">https://blog.csdn.net/acs713/article/details/40651457</a></li>
+</ul>
+<h1 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h1><p><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1KjOv6.png" alt="1KjOv6.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:kinmfer@foxmail.com">Kinmfer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://kinmfer.github.io/2020/01/28/Django-01-HelloDjango/">https://kinmfer.github.io/2020/01/28/Django-01-HelloDjango/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Kinmfer.github.io" target="_blank">Kinmfer's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Django/">Django</a><a class="post-meta__tags" href="/tags/Web%E6%A1%86%E6%9E%B6/">Web框架</a><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/01/28/Django-02-DjangoModel-01/"><img class="prev-cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Django-02-DjangoModel-01</div></div></a></div><div class="next-post pull-right"><a href="/2019/11/15/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7/"><img class="next-cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1Q2ADP.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">百度搜索技巧</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/02/01/Django-03-DjangoModel-02/" title="Django-03-DjangoModel-02"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-01</div><div class="title">Django-03-DjangoModel-02</div></div></a></div><div><a href="/2020/01/30/Django-04-DjangoTemplate/" title="Django-04-DjangoTemplate"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-01-30</div><div class="title">Django-04-DjangoTemplate</div></div></a></div><div><a href="/2020/02/02/Django-06-DjangoView-02/" title="Django-06-DjangoView-02"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-02-02</div><div class="title">Django-06-DjangoView-02</div></div></a></div><div><a href="/2020/03/17/Django-07-拓展-01/" title="Django-07-拓展-01"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-07-拓展-01</div></div></a></div><div><a href="/2020/03/17/Django-08-DjangoCache/" title="Django-08-DjangoCache"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-08-DjangoCache</div></div></a></div><div><a href="/2020/03/17/Django-09-中间件/" title="Django-09-中间件"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-03-17</div><div class="title">Django-09-中间件</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzMi8yODQxMw=="></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kinmfer</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kinmfer"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Kinmfer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:kinmfer@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Django%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Django简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">开发环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CS-BS%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">CS,BS模型介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">MVC设计模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MTV%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">MTV设计模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AADjango%E9%A1%B9%E7%9B%AE"><span class="toc-number">6.</span> <span class="toc-text">创建一个Django项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Django%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">7.</span> <span class="toc-text">Django目录介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="toc-number">8.</span> <span class="toc-text">测试服务器的启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E6%95%B0%E6%8D%AE-pycharm%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">9.</span> <span class="toc-text">迁移数据,pycharm连接数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text">创建一个应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">11.</span> <span class="toc-text">项目目录介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%A7%86%E5%9B%BE"><span class="toc-number">12.</span> <span class="toc-text">基本视图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A8%A1%E6%9D%BF"><span class="toc-number">13.</span> <span class="toc-text">基本模板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">14.</span> <span class="toc-text">测试数据模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">15.</span> <span class="toc-text">结合使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">16.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE"><span class="toc-number">17.</span> <span class="toc-text">思维导图</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mongodb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-14-MongoDB"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB">综合架构-DBA-14-MongoDB</a><time datetime="2020-09-28T06:45:34.000Z" title="发表于 2020-09-28 14:45:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/redis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-13-Redis"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis">综合架构-DBA-13-Redis</a><time datetime="2020-09-28T06:45:04.000Z" title="发表于 2020-09-28 14:45:04">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-12-Mycat"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat">综合架构-DBA-12-Mycat</a><time datetime="2020-09-28T06:44:34.000Z" title="发表于 2020-09-28 14:44:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-11-Atlas"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas">综合架构-DBA-11-Atlas</a><time datetime="2020-09-28T06:43:19.000Z" title="发表于 2020-09-28 14:43:19">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-10-MHA高可用技术"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术">综合架构-DBA-10-MHA高可用技术</a><time datetime="2020-09-28T06:42:46.000Z" title="发表于 2020-09-28 14:42:46">2020-09-28</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/django.png)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Kinmfer</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://kinmfer.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="//code.tidio.co/mzqu2o1lbhle9bvhab8bexgtiyxgkheb.js" async="async"></script><script>function onTidioChatApiReady() {
+  window.tidioChatApi.hide();
+  window.tidioChatApi.on("close", function() {
+    window.tidioChatApi.hide();
+  });
+}
+if (window.tidioChatApi) {
+  window.tidioChatApi.on("ready", onTidioChatApiReady);
+} else {
+  document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+}
+
+var chatBtnFn = () => {
+  document.getElementById("chat_btn").addEventListener("click", function(){
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
+  });
+}
+chatBtnFn()
+</script></div></body></html>

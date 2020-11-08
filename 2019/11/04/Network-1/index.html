@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Network-1 | Kinmfer's Blogs</title><meta name="keywords" content="cisco"><meta name="author" content="Kinmfer,kinmfer@foxmail.com"><meta name="copyright" content="Kinmfer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="ISO-OSI七层模型物理层定义电器，机械的流程规范   PDU： bit&#x2F;比特 设备： hub(集线器) 备注： 没有寻址的概念  数据链路层定义如何格式化数据，支持错误检测 典型协议： 以太网，帧中继 PDU： frame&#x2F;帧 设备： 以太网交换机 备注： 交换机可以通过mac地址转发数据，逻辑链路控制 ctrl+r &#x3D; 运行 cmd &#x3D; 命令提示符 ipconfig 查看网络信息 ipcon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Network-1">
+<meta property="og:url" content="https://kinmfer.github.io/2019/11/04/Network-1/index.html">
+<meta property="og:site_name" content="Kinmfer&#39;s Blogs">
+<meta property="og:description" content="ISO-OSI七层模型物理层定义电器，机械的流程规范   PDU： bit&#x2F;比特 设备： hub(集线器) 备注： 没有寻址的概念  数据链路层定义如何格式化数据，支持错误检测 典型协议： 以太网，帧中继 PDU： frame&#x2F;帧 设备： 以太网交换机 备注： 交换机可以通过mac地址转发数据，逻辑链路控制 ctrl+r &#x3D; 运行 cmd &#x3D; 命令提示符 ipconfig 查看网络信息 ipcon">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png">
+<meta property="article:published_time" content="2019-11-04T00:38:23.000Z">
+<meta property="article:modified_time" content="2020-05-26T07:06:21.310Z">
+<meta property="article:author" content="Kinmfer">
+<meta property="article:tag" content="cisco">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kinmfer.github.io/2019/11/04/Network-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c46ed77365f502de73543fbf10399875";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"C2N62A47W9","apiKey":"0c62f17095ec2a20c19657511a42c0b1","indexName":"Blogs","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇文章更新于","messageNext":"天前,内容可能已经过时"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Kinmfer","link":"链接: ","source":"来源: Kinmfer's Blogs","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-05-26 15:06:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = '1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kinmfer's Blogs</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Network-1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-11-04T00:38:23.000Z" title="发表于 2019-11-04 08:38:23">2019-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-05-26T07:06:21.310Z" title="更新于 2020-05-26 15:06:21">2020-05-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="ISO-OSI七层模型"><a href="#ISO-OSI七层模型" class="headerlink" title="ISO-OSI七层模型"></a>ISO-OSI七层模型</h1><h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p>定义电器，机械的流程规范  </p>
+<p>PDU：</p>
+<p>bit/比特</p>
+<p>设备：</p>
+<p>hub(集线器)</p>
+<p>备注：</p>
+<p>没有寻址的概念</p>
+<hr>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>定义如何格式化数据，支持错误检测</p>
+<p>典型协议：</p>
+<p>以太网，帧中继</p>
+<p>PDU：</p>
+<p>frame/帧</p>
+<p>设备：</p>
+<p>以太网交换机</p>
+<p>备注：</p>
+<p>交换机可以通过mac地址转发数据，逻辑链路控制</p>
+<p>ctrl+r = 运行</p>
+<p>cmd = 命令提示符</p>
+<p>ipconfig 查看网络信息</p>
+<p>ipconfig /all 详细信息</p>
+<hr>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>定义一个逻辑寻址，选择最佳路径传递路由的数据包</p>
+<p>典型协议：</p>
+<p>ip，icmp（ping命令），ipx，arp</p>
+<p>PDU：</p>
+<p>packet/数据包</p>
+<p>设备：</p>
+<p>路由器</p>
+<p>备注：</p>
+<p>实现寻址</p>
+<hr>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><p>提供可靠/不可靠的传输</p>
+<p>典型协议：</p>
+<p>tcp udp port eigrp ospf</p>
+<p>PDU：</p>
+<p>fragment/数据段</p>
+<p>备注：</p>
+<p>负责流量传输和会话建立</p>
+<hr>
+<h2 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h2><p>控制会话，建立管理终止应用程序会话</p>
+<p>典型协议：</p>
+<p>NFS SQL ASP RPC RSVP windows</p>
+<p>备注：</p>
+<p>负责会话建立</p>
+<hr>
+<h2 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h2><p>格式化数据（加密）</p>
+<p>ascii jpeg mp3 mp4</p>
+<p>备注：</p>
+<p>可以提供加密服务</p>
+<hr>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>控制应用程序</p>
+<p>典型协议：</p>
+<p>telnet http https ftp smtp RIP BGP（部分）</p>
+<p>备注：</p>
+<p>给应用程序提供网络服务</p>
+<hr>
+<h1 id="TCP-IP-协议"><a href="#TCP-IP-协议" class="headerlink" title="TCP/IP 协议"></a>TCP/IP 协议</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>提供一种传输方式</p>
+<p>tcp（可靠传输）面向连接，数据包进行排序</p>
+<p>udp（不可靠）无连接，不排序</p>
+<p>表识上层应用</p>
+<p>netstat 查看端口号信息</p>
+<p>netstat -ano 查看详细信息</p>
+<h2 id="tcp3次握手（期待确认）"><a href="#tcp3次握手（期待确认）" class="headerlink" title="tcp3次握手（期待确认）"></a>tcp3次握手（期待确认）</h2><p>syn是请求，ack回复，seq序列号</p>
+<p>tcp：任何syn请求，不管正确还是错误，我们必须要以一个ack值来回复</p>
+<p>主机A—–(syn标志位1，ack=300，seq=100，ctrl=syn)—–&gt;主机B</p>
+<p>主机A&lt;—–(syn和ack置位，同意建立连接,ack=301，seq=100)——主机B</p>
+<p>主机A——(只有ack置位，ack=301,seq=101)——&gt;主机B</p>
+<p>因为三次握手的漏洞，所以有DOS拒绝服务攻击</p>
+<p>DDOS分布式拒绝服务攻击</p>
+<h2 id="端口号："><a href="#端口号：" class="headerlink" title="端口号："></a>端口号：</h2><p>1-65535个端口</p>
+<p>tcp：</p>
+<p>telnet-23</p>
+<p>ftp-20，21</p>
+<p>http-80</p>
+<p>dns-53</p>
+<p>https-443</p>
+<p>udp：</p>
+<p>rip-520</p>
+<p>tftp-69</p>
+<p>dns-53</p>
+<p>snmp-161</p>
+<p>理论上，端口号有用的多数出现在&lt;1024的端口</p>
+<hr>
+<h1 id="广播，组播，单播"><a href="#广播，组播，单播" class="headerlink" title="广播，组播，单播"></a>广播，组播，单播</h1><h2 id="ip协议："><a href="#ip协议：" class="headerlink" title="ip协议："></a>ip协议：</h2><p>（不同网络号之间的设备无法通信</p>
+<p>以一种逻辑的方式隔离广播</p>
+<p>运行于osi中的网络层</p>
+<p>面向无连接的</p>
+<p>独立处理数据包</p>
+<p>尽力而为的传输</p>
+<p>无数据恢复功能</p>
+<p>范围：</p>
+<p>0.0.0.0-255.255.255.255</p>
+<p>00000000.00000000.00000000.00000000</p>
+<p>11111111.11111111.11111111.11111111</p>
+<p>A类地址：</p>
+<p>第一个bit为0，其他任意</p>
+<p>0.0.0.0-127.255.255.255</p>
+<p>前8位为网络位，后24位为主机位</p>
+<p>0，127是不能使用的地址，0代表默认，127代表我自己（环回口，测试本地网卡用的）</p>
+<p>B类地址：</p>
+<p>前2个bit固定，其他任意，128-191，前16位网络位，后16位主机位</p>
+<p>C类地址：</p>
+<p>前3个bit固定，其他任意，192-223，前24位网络位，后8位主机位</p>
+<p>ABC类地址都属于单播地址，可以分配给终端，主机，接口的地址</p>
+<p>D类，224-239，组播地址</p>
+<p>E类，240-255，科学研究</p>
+<h2 id="网络号"><a href="#网络号" class="headerlink" title="网络号"></a>网络号</h2><p>子网掩码和ip地址的二进制相与，得出网络号</p>
+<p>192.168.0.1  255.255.255.0  =   192.168.0.1/24</p>
+<p>11000000.10101000.00000000.00000001</p>
+<p>11111111.11111111.11111111.00000000</p>
+<p>=================================</p>
+<p>11000000.10101000.00000000.00000000 </p>
+<p>192.168.0.0</p>
+<h2 id="可变长子网掩码"><a href="#可变长子网掩码" class="headerlink" title="可变长子网掩码"></a>可变长子网掩码</h2><p>192.168.100.0网段，分给8个公司，每个公司都得在不同的网络号里面</p>
+<p>11111111.11111111.11111111.11100000 = 255.255.255.224</p>
+<p>11000000.10101000.01100100.00000000 = 192.168.100.0</p>
+<p>11000000.10101000.01100100.00100000 = 192.168.100.32</p>
+<p>11000000.10101000.01100100.01000000 = 192.168.100.64</p>
+<p>11000000.10101000.01100100.01100000 = 192.168.100.96</p>
+<p>11000000.10101000.01100100.10000000 = 192.168.100.128</p>
+<p>11000000.10101000.01100100.10100000 = 192.168.100.160</p>
+<p>11000000.10101000.01100100.11000000 = 192.168.100.192</p>
+<p>11000000.10101000.01100100.11100000 = 192.168.100.224</p>
+<hr>
+<h1 id="arp地址解析协议（内网中的通讯录）"><a href="#arp地址解析协议（内网中的通讯录）" class="headerlink" title="arp地址解析协议（内网中的通讯录）"></a>arp地址解析协议（内网中的通讯录）</h1><p>cmd</p>
+<p>arp -a 显示arp表</p>
+<p>以太网才有arp，帧中继是没有arp的</p>
+<p>ip地址解析为mac地址</p>
+<p>1.主机A发送arp广播</p>
+<p>2.主机B单播回复给A，回应里保存了B的mac地址</p>
+<p>arp表三要素：</p>
+<p>对方ip，对方mac，出接口</p>
+<p>arp表老化时间4小时</p>
+<hr>
+<h1 id="eve-ng环境"><a href="#eve-ng环境" class="headerlink" title="eve-ng环境"></a>eve-ng环境</h1><h2 id="入门命令"><a href="#入门命令" class="headerlink" title="入门命令"></a>入门命令</h2><p>所有的命令都可以用tab键补全</p>
+<p>使用特权模式进入路由器</p>
+<p><code>en</code></p>
+<p>进入配置模式</p>
+<p><code>conf t</code></p>
+<p>改个名字</p>
+<p><code>ho [名字]</code></p>
+<p>优化命令</p>
+<p><code>no ip domain-lo</code> 关闭域名查询(当你输错命令的时候不会卡住)</p>
+<p><code>line con 0</code> 进入0控制线</p>
+<p><code>no exec-t</code>设置控制台会话永不超时</p>
+<p><code>logg syn</code> 防止弹出信息干扰输入</p>
+<p><code>exit</code> 退一格</p>
+<p><code>ena pass</code> [密码] 设置enable密码</p>
+<p><code>sh run</code> 查看本路由器运行的所有内容</p>
+<p><code>no xxxxxxx</code>命令 取消什么命令</p>
+<p><code>ena sec [密码]</code> 设置一个加密过的密码</p>
+<h2 id="给接口设置ip地址"><a href="#给接口设置ip地址" class="headerlink" title="给接口设置ip地址"></a>给接口设置ip地址</h2><p><code>int [接口号]</code>  进入接口</p>
+<p><code>no sh</code> 开启接口(路由器所有接口默认状态都是sh)</p>
+<p><code>ip add [ip地址]\[子网掩码]</code>添加ip地址</p>
+<p><code>sh ip int bri</code> 看到路由器所有接口的状态</p>
+<p>ping是使用icmp协议的，而且是双向的！！！！！！</p>
+<p><code>ping [目标ip地址]</code> 测试连通性</p>
+<p><code>ping [目标ip] so [自己端口] </code>带源ping</p>
+<hr>
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><p>路由的意思叫路径学习和最佳路径学习</p>
+<p><code>sh ip rou</code> 查看路由表（能出现在路由表里的不一定是所有路径，但是一定是最佳路径）</p>
+<p><strong>L</strong>  自己的</p>
+<p><strong>C</strong>  直连</p>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由:"></a>静态路由:</h3><p>默认AD为1，metric为0</p>
+<p>由管理员手工指定，安全且稳定</p>
+<p><code>ip route [目标网段]\[子网掩码] [出接口/下一跳]</code></p>
+<p>（都尽量写下一跳）</p>
+<h3 id="浮动的静态路由："><a href="#浮动的静态路由：" class="headerlink" title="浮动的静态路由："></a>浮动的静态路由：</h3><p><code>ip route [目标网段]\[子网掩码] [出接口/下一跳]\[AD值]</code></p>
+<p>永不消逝的静态路由：</p>
+<p>即使接口sh了也不会消失</p>
+<p><code>ip route [目标网段]\[子网掩码] [出接口/下一跳] per</code></p>
+<h3 id="默认路由："><a href="#默认路由：" class="headerlink" title="默认路由："></a>默认路由：</h3><p>不知道怎么走，就走默认路由</p>
+<p><code>ip route 0.0.0.0 0.0.0.0 [出接口/下一跳] </code></p>
+<p>注意：一台路由器只能配置一个默认路由，而且它是最后的选择</p>
+<h3 id="跟踪路由的路径"><a href="#跟踪路由的路径" class="headerlink" title="跟踪路由的路径"></a>跟踪路由的路径</h3><p><code>trac [目标ip]</code></p>
+<p><code>trac [目标ip] so [端口]</code></p>
+<p><code>ctrl+shift+6 </code>强行跳出来</p>
+<h3 id="环回口来假装pc"><a href="#环回口来假装pc" class="headerlink" title="环回口来假装pc"></a>环回口来假装pc</h3><p><code>int lo[编号]</code> 开启一个环回口</p>
+<p><code>ip add [ip]\[子网掩码]</code></p>
+<h3 id="路由器选路："><a href="#路由器选路：" class="headerlink" title="路由器选路："></a>路由器选路：</h3><p>[AD值/metric值]</p>
+<p>先比较AD值，AD值一样再比较metric值</p>
+<p>AD管理距离：</p>
+<p>通过不同的路由协议产生不同的AD，越小越优先</p>
+<p>metric值（度量值）：</p>
+<p>通过同一个路由协议学到的AD值一样的情况下，比metric值</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:kinmfer@foxmail.com">Kinmfer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://kinmfer.github.io/2019/11/04/Network-1/">https://kinmfer.github.io/2019/11/04/Network-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Kinmfer.github.io" target="_blank">Kinmfer's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cisco/">cisco</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2019/11/04/Network-2/"><img class="prev-cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Network-2</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/04/Network-2/" title="Network-2"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-04</div><div class="title">Network-2</div></div></a></div><div><a href="/2019/11/10/Network-3/" title="Network-3"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-10</div><div class="title">Network-3</div></div></a></div><div><a href="/2019/11/10/Network-5/" title="Network-5"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-10</div><div class="title">Network-5</div></div></a></div><div><a href="/2019/11/10/Network-4/" title="Network-4"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-10</div><div class="title">Network-4</div></div></a></div><div><a href="/2019/11/10/Network-6/" title="Network-6"><img class="cover" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-10</div><div class="title">Network-6</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzMi8yODQxMw=="></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kinmfer</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kinmfer"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Kinmfer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:kinmfer@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ISO-OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">ISO-OSI七层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">1.1.</span> <span class="toc-text">物理层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">数据链路层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">网络层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">1.4.</span> <span class="toc-text">传输层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="toc-number">1.5.</span> <span class="toc-text">会话层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="toc-number">1.6.</span> <span class="toc-text">表示层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">1.7.</span> <span class="toc-text">应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP-%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">TCP&#x2F;IP 协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp3%E6%AC%A1%E6%8F%A1%E6%89%8B%EF%BC%88%E6%9C%9F%E5%BE%85%E7%A1%AE%E8%AE%A4%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">tcp3次握手（期待确认）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%8F%B7%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">端口号：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%EF%BC%8C%E7%BB%84%E6%92%AD%EF%BC%8C%E5%8D%95%E6%92%AD"><span class="toc-number">3.</span> <span class="toc-text">广播，组播，单播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ip%E5%8D%8F%E8%AE%AE%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">ip协议：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%8F%B7"><span class="toc-number">3.2.</span> <span class="toc-text">网络号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E9%95%BF%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81"><span class="toc-number">3.3.</span> <span class="toc-text">可变长子网掩码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#arp%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AE%EF%BC%88%E5%86%85%E7%BD%91%E4%B8%AD%E7%9A%84%E9%80%9A%E8%AE%AF%E5%BD%95%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">arp地址解析协议（内网中的通讯录）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#eve-ng%E7%8E%AF%E5%A2%83"><span class="toc-number">5.</span> <span class="toc-text">eve-ng环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">入门命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99%E6%8E%A5%E5%8F%A3%E8%AE%BE%E7%BD%AEip%E5%9C%B0%E5%9D%80"><span class="toc-number">5.2.</span> <span class="toc-text">给接口设置ip地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1"><span class="toc-number">5.3.</span> <span class="toc-text">路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">5.3.1.</span> <span class="toc-text">静态路由:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E5%8A%A8%E7%9A%84%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%EF%BC%9A"><span class="toc-number">5.3.2.</span> <span class="toc-text">浮动的静态路由：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E8%B7%AF%E7%94%B1%EF%BC%9A"><span class="toc-number">5.3.3.</span> <span class="toc-text">默认路由：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9F%E8%B8%AA%E8%B7%AF%E7%94%B1%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-number">5.3.4.</span> <span class="toc-text">跟踪路由的路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%9B%9E%E5%8F%A3%E6%9D%A5%E5%81%87%E8%A3%85pc"><span class="toc-number">5.3.5.</span> <span class="toc-text">环回口来假装pc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E9%80%89%E8%B7%AF%EF%BC%9A"><span class="toc-number">5.3.6.</span> <span class="toc-text">路由器选路：</span></a></li></ol></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mongodb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-14-MongoDB"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB">综合架构-DBA-14-MongoDB</a><time datetime="2020-09-28T06:45:34.000Z" title="发表于 2020-09-28 14:45:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/redis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-13-Redis"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis">综合架构-DBA-13-Redis</a><time datetime="2020-09-28T06:45:04.000Z" title="发表于 2020-09-28 14:45:04">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-12-Mycat"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat">综合架构-DBA-12-Mycat</a><time datetime="2020-09-28T06:44:34.000Z" title="发表于 2020-09-28 14:44:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-11-Atlas"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas">综合架构-DBA-11-Atlas</a><time datetime="2020-09-28T06:43:19.000Z" title="发表于 2020-09-28 14:43:19">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-10-MHA高可用技术"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术">综合架构-DBA-10-MHA高可用技术</a><time datetime="2020-09-28T06:42:46.000Z" title="发表于 2020-09-28 14:42:46">2020-09-28</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/Kinmfer/BlogImages/raw/master/img/cisco.png)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Kinmfer</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://kinmfer.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="//code.tidio.co/mzqu2o1lbhle9bvhab8bexgtiyxgkheb.js" async="async"></script><script>function onTidioChatApiReady() {
+  window.tidioChatApi.hide();
+  window.tidioChatApi.on("close", function() {
+    window.tidioChatApi.hide();
+  });
+}
+if (window.tidioChatApi) {
+  window.tidioChatApi.on("ready", onTidioChatApiReady);
+} else {
+  document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+}
+
+var chatBtnFn = () => {
+  document.getElementById("chat_btn").addEventListener("click", function(){
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
+  });
+}
+chatBtnFn()
+</script></div></body></html>
