@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker-05-Docker Registry+Docker Hub | Kinmfer's Blogs</title><meta name="keywords" content="Docker"><meta name="author" content="Kinmfer,kinmfer@foxmail.com"><meta name="copyright" content="Kinmfer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Docker RegistryDocker Registry作为Docker的核心组件之一负责镜像内容的存储与分发，客户端的docker pull以及push命令都将直接与registry进行交互,最初版本的registry由Python实现,由于设计初期在安全性,性能以及API的设计上有着诸多的缺陷，该版本在0.9之后停止了开发，由新的项目distribution(新的docker regist">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-05-Docker Registry+Docker Hub">
+<meta property="og:url" content="https://kinmfer.github.io/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-05-Docker%20Registry+Docker%20Hub/index.html">
+<meta property="og:site_name" content="Kinmfer&#39;s Blogs">
+<meta property="og:description" content="Docker RegistryDocker Registry作为Docker的核心组件之一负责镜像内容的存储与分发，客户端的docker pull以及push命令都将直接与registry进行交互,最初版本的registry由Python实现,由于设计初期在安全性,性能以及API的设计上有着诸多的缺陷，该版本在0.9之后停止了开发，由新的项目distribution(新的docker regist">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg">
+<meta property="article:published_time" content="2020-07-30T04:59:22.000Z">
+<meta property="article:modified_time" content="2020-12-06T08:29:25.168Z">
+<meta property="article:author" content="Kinmfer">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kinmfer.github.io/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-05-Docker%20Registry+Docker%20Hub/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c46ed77365f502de73543fbf10399875";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"C2N62A47W9","apiKey":"0c62f17095ec2a20c19657511a42c0b1","indexName":"Blogs","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇文章更新于","messageNext":"天前,内容可能已经过时"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":200,"languages":{"author":"作者: Kinmfer","link":"链接: ","source":"来源: Kinmfer's Blogs","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-12-06 16:29:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = '1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kinmfer's Blogs</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Docker-05-Docker Registry+Docker Hub</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-07-30T04:59:22.000Z" title="发表于 2020-07-30 12:59:22">2020-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-06T08:29:25.168Z" title="更新于 2020-12-06 16:29:25">2020-12-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/Docker/">Docker</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-05-Docker%20Registry+Docker%20Hub/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-05-Docker%20Registry+Docker%20Hub/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Docker-Registry"><a href="#Docker-Registry" class="headerlink" title="Docker Registry"></a>Docker Registry</h1><p>Docker Registry作为Docker的核心组件之一负责镜像内容的存储与分发，客户端的docker pull以及push命令都将直接与registry进行交互,最初版本的registry由Python实现,由于设计初期在安全性,性能以及API的设计上有着诸多的缺陷，该版本在0.9之后停止了开发，由新的项目distribution(新的docker register被称为Distribution）来重新设计并开发下一代registry，新的项目由go 语言开发，所有的 API，底层存储方式，系统架构都进行了全面的重新设计已解决上一代registry中存在的问题，2016年4月份rgistry 2.0正式发布，docker 1.6版本开始支持registry 2.0，而八月份随着docker 1.8发布，docker hub正式启用2.1版本registry全面替代之前版本registry，新版registry对镜像存储格式进行了重新设计并和旧版不兼容，docker 1.5和之前的版本无法读取2.0的镜像，另外，Registry2.4版本之后支持了回收站机制，也就是可以删除镜像了，在2.4版本之前是无法支持删除镜像的，所以如果你要使用最好是大于Registry 2.4版本的，目前最新版本为2.7.x</p>
+<p>官方文档地址: <a target="_blank" rel="noopener" href="https://docs.docker.com/registry/">https://docs.docker.com/registry/</a></p>
+<p>官方github地址: <a target="_blank" rel="noopener" href="https://github.com/docker/distribution/">https://github.com/docker/distribution/</a></p>
+<p>本部分将介绍通过官方提供的docker registry镜像来简单搭建一套本地私有仓库环境。</p>
+<h2 id="下载Docker-Registry镜像"><a href="#下载Docker-Registry镜像" class="headerlink" title="下载Docker Registry镜像"></a>下载Docker Registry镜像</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker01 ~]$ docker pull registry</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727163336809.png" alt="image-20200727163336809"></p>
+<h2 id="搭建单机仓库"><a href="#搭建单机仓库" class="headerlink" title="搭建单机仓库"></a>搭建单机仓库</h2><h3 id="创建授权使用目录"><a href="#创建授权使用目录" class="headerlink" title="创建授权使用目录"></a>创建授权使用目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker01 ~]$ mkdir /docker/auth -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker01 docker]$ docker run --entrypoint htpasswd registry -Bbn kinmfer 123456 &gt; /docker/auth/htpasswd</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Docker-Registry"><a href="#启动Docker-Registry" class="headerlink" title="启动Docker Registry"></a>启动Docker Registry</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker01 docker]$ docker run -d -p 5000:5000 --name registry1 -v /docker/auth:/auth -e <span class="string">&quot;REGISTRY_AUTH=htpasswd&quot;</span> -e <span class="string">&quot;REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm&quot;</span> -e <span class="string">&quot;REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd&quot;</span> registry</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727171750488.png" alt="image-20200727171750488"></p>
+<h3 id="测试登陆仓库"><a href="#测试登陆仓库" class="headerlink" title="测试登陆仓库"></a>测试登陆仓库</h3><p>会报错如下</p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727172119125.png" alt="image-20200727172119125"></p>
+<p>添加不安全的registry</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Docker02 ~]$ vim /lib/systemd/system/docker.service</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727172445326.png" alt="image-20200727172445326"></p>
+<p>再次登陆成功</p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727173540434.png" alt="image-20200727173540434"></p>
+<hr>
+<p><strong>或者</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">修改daemon.json   </span><br><span class="line">vim /etc/docker/daemon.json    </span><br><span class="line"><span class="comment"># 在上述文件中添加一个key，保存退出。此步用于让 docker 信任私有仓库地址；注意将私有仓库服务器ip修改为自己私有仓库服务器真实ip </span></span><br><span class="line">&#123;<span class="string">&quot;insecure-registries&quot;</span>:[<span class="string">&quot;私有仓库服务器ip:5000&quot;</span>]&#125; </span><br><span class="line"><span class="comment"># 5、重启docker 服务 </span></span><br><span class="line">systemctl restart docker</span><br><span class="line">docker start registry</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Docker02 ~]$ docker tag nginx:1.16.1 192.168.242.100:5000/docker02/nginx:1.16.1</span><br><span class="line">[root@Docker02 ~]$ docker push 192.168.242.100:5000/docker02/nginx:1.16.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200727174213816.png" alt="image-20200727174213816"></p>
+<h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h3><p>在另一台主机下载镜像，前提是也得添加不安全的registry</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 ~]$ docker pull 192.168.242.100:5000/docker02/nginx:1.16.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728081937231.png" alt="image-20200728081937231"></p>
+<h1 id="Docker-Hub"><a href="#Docker-Hub" class="headerlink" title="Docker Hub"></a>Docker Hub</h1><p>Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器,由vmware开源，其通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源Docker Distribution。作为一个企业级私有Registry服务器，Harbor提供了更好的性能和安全。提升用户使用Registry构建和运行环境传输镜像的效率。Harbor支持安装在多个Registry节点的镜像资源复制,镜像全部保存在私有Registry中，确保数据和知识产权在公司内部网络中管控，另外，Harbor也提供了高级的安全特性，诸如用户管理，访问控制和活动审计等。</p>
+<p>vmware官方开源服务列表地址: <a target="_blank" rel="noopener" href="https://vmware.github.io/harbor/cn/">https://vmware.github.io/harbor/cn/</a><br>harbor官方github地址: <a target="_blank" rel="noopener" href="https://github.com/vmware/harbors">https://github.com/vmware/harbors</a><br>harbor官方网址: <a target="_blank" rel="noopener" href="https://goharbor.io/">https://goharbor.io/</a></p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728082753247.png" alt="image-20200728082753247"></p>
+<h2 id="Habor功能官方介绍"><a href="#Habor功能官方介绍" class="headerlink" title="Habor功能官方介绍"></a>Habor功能官方介绍</h2><p>基于角色的访问控制:用户与Docker镜像仓库通过“项目”进行组织管理，一个用户可以对多个镜像仓库在同一命名空间(project）里有不同的权限。镜像复制:镜像可以在多个Registry实例中复制(同步)。尤其适合于负载均衡，高可用，混合云和多云的场景。 </p>
+<p>图形化用户界面:用户可以通过浏览器来浏览，检索当前Docker镜像仓库，管理项目和命名空间。</p>
+<p>AD/LDAP支: Harbor可以集成企业内部已有的AD/LDAP，用于鉴权认证管理。</p>
+<p>审计管理:所有针对镜像仓库的操作都可以被记录追溯，用于审计管理。</p>
+<p>国际化:已拥有英文、中文、德文、日文和俄文的本地化版本。更多的语言将会添加进来</p>
+<p>AD/LDAP支:Harbor可以集成企业内部已有的AD/LDAP，用于鉴权认证管理。</p>
+<p>审计管理:所有针对镜像仓库的操作都可以被记录追溯，用于审计管理。</p>
+<p>国际化:已拥有英文、中文、德文、日文和俄文的本地化版本。更多的语言将会添加进来。</p>
+<p>RESTfulAPI︰提供给管理员对于Harbor更多的操控，使得与其它管理软件集成变得更容易。</p>
+<p>部署简单:提供在线和离线两种安装工具，也可以安装到vSphere平台(OVA方式)虚拟设备。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nginx: harbor的一个反向代理组件，代理registry、ui、token等服务。这个代理会转发harbor web和 docker client的各种请求到后端服务上。</span><br><span class="line">harbor-adminserver: harbor系统管理接口，可以修改系统配置以及获取系统信息。</span><br><span class="line">harbor-db:存储项目的元数据、用户、规则、复制策略等信息。</span><br><span class="line">harbor-jobservice: harbor里面主要是为了镜像仓库之前同步使用的。</span><br><span class="line">harbor-log:收集其他harbor的日志信息。</span><br><span class="line">harbor-ui:一个用户界面模块，用来管理registry。</span><br><span class="line">registry:存储docker images的服务，并且提供 pull&#x2F;push服务。</span><br><span class="line">redis:存储缓存信息</span><br><span class="line">webhook:当registry中的image状态发生变化的时候去记录更新日志、复制等操作。</span><br><span class="line">token service:在 docker client进行pull&#x2F;push 的时候负责token 的发放。</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装Harbor"><a href="#安装Harbor" class="headerlink" title="安装Harbor"></a>安装Harbor</h2><p>下载地址:<a target="_blank" rel="noopener" href="https://github.com/vmware/harbor/releases/">https://github.com/vmware/harbor/releases/</a><br>安装文档:<br><a target="_blank" rel="noopener" href="https://github.com/vmware/harbor/blob/master/docs/installation_guide.md/">https://github.com/vmware/harbor/blob/master/docs/installation_guide.md/</a></p>
+<blockquote>
+<p>前提得安装Docker</p>
+</blockquote>
+<p>下载离线安装完整包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 ~]$ <span class="built_in">cd</span> /usr/loacl/src</span><br><span class="line">[root@docker03 ~]$ wget https://github.com/goharbor/harbor/releases/download/v1.10.4/harbor-offline-installer-v1.10.4.tgz</span><br></pre></td></tr></table></figure>
+
+<p>下载在线安装包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 ~]$ <span class="built_in">cd</span> /usr/loacl/src</span><br><span class="line">[root@docker03 ~]$ wget https://github.com/goharbor/harbor/releases/download/v1.10.4/harbor-online-installer-v1.10.4.tgz</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置Harbor"><a href="#配置Harbor" class="headerlink" title="配置Harbor"></a>配置Harbor</h2><p>解压并配置habor.cfg</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 src]$ tar xf harbor-offline-installer-v1.10.4_2.tgz</span><br><span class="line">[root@docker03 src]$ dnf install python3-pip -y</span><br><span class="line">[root@docker03 harbor]$ docker-compose --version</span><br><span class="line">docker-compose version 1.26.2, build unknown</span><br><span class="line">[root@docker03 harbor]$ ./install.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="官方方式启动Harbor"><a href="#官方方式启动Harbor" class="headerlink" title="官方方式启动Harbor"></a>官方方式启动Harbor</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 src]$ dnf install python3-pip -y</span><br><span class="line">[root@docker03 src]$ pip3 install docker-compose</span><br><span class="line">[root@docker03 src]$ ./install.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@docker03 harbor]$ docker-compose stop</span><br><span class="line">[root@docker03 harbor]$ docker-compose start</span><br><span class="line">[root@docker03 harbor]$ docker-compose pause</span><br><span class="line">[root@docker03 harbor]$ docker-compose unpause</span><br><span class="line">[root@docker03 harbor]$ docker-compose restart</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728093447342.png" alt="image-20200728093447342"></p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728093528709.png" alt="image-20200728093528709"></p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728094646777.png" alt="image-20200728094646777"></p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728094701641.png" alt="image-20200728094701641"></p>
+<p><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/image-20200728094739325.png" alt="image-20200728094739325"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:kinmfer@foxmail.com">Kinmfer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://kinmfer.github.io/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-05-Docker%20Registry+Docker%20Hub/">https://kinmfer.github.io/2020/07/30/云计算-Docker-05-Docker Registry+Docker Hub/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Kinmfer.github.io" target="_blank">Kinmfer's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-06-%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6+%E5%8F%AF%E8%A7%86%E5%8C%96%E9%9D%A2%E6%9D%BF/"><img class="prev-cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker-06-资源限制+可视化面板</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/30/%E4%BA%91%E8%AE%A1%E7%AE%97-Docker-04-%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%B6%E4%BD%9C/"><img class="next-cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker-04-镜像与制作</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/07/30/云计算-Docker-02-数据管理/" title="Docker-02-数据管理"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-30</div><div class="title">Docker-02-数据管理</div></div></a></div><div><a href="/2020/07/30/云计算-Docker-03-网络部分/" title="Docker-03-网络部分"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-30</div><div class="title">Docker-03-网络部分</div></div></a></div><div><a href="/2020/07/30/云计算-Docker-06-资源限制+可视化面板/" title="Docker-06-资源限制+可视化面板"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-30</div><div class="title">Docker-06-资源限制+可视化面板</div></div></a></div><div><a href="/2020/07/30/云计算-Docker-01-基础/" title="Docker-01-基础"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-30</div><div class="title">Docker-01-基础</div></div></a></div><div><a href="/2020/07/30/云计算-Docker-04-镜像与制作/" title="Docker-04-镜像与制作"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-30</div><div class="title">Docker-04-镜像与制作</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Livere</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzMi8yODQxMw=="></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Kinmfer</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">81</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kinmfer"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Kinmfer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:kinmfer@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Registry"><span class="toc-number">1.</span> <span class="toc-text">Docker Registry</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDDocker-Registry%E9%95%9C%E5%83%8F"><span class="toc-number">1.1.</span> <span class="toc-text">下载Docker Registry镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%8D%95%E6%9C%BA%E4%BB%93%E5%BA%93"><span class="toc-number">1.2.</span> <span class="toc-text">搭建单机仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.1.</span> <span class="toc-text">创建授权使用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="toc-number">1.2.2.</span> <span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8Docker-Registry"><span class="toc-number">1.2.3.</span> <span class="toc-text">启动Docker Registry</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%99%BB%E9%99%86%E4%BB%93%E5%BA%93"><span class="toc-number">1.2.4.</span> <span class="toc-text">测试登陆仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.5.</span> <span class="toc-text">上传镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.6.</span> <span class="toc-text">下载镜像</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Hub"><span class="toc-number">2.</span> <span class="toc-text">Docker Hub</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Habor%E5%8A%9F%E8%83%BD%E5%AE%98%E6%96%B9%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">Habor功能官方介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Harbor"><span class="toc-number">2.2.</span> <span class="toc-text">安装Harbor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEHarbor"><span class="toc-number">2.3.</span> <span class="toc-text">配置Harbor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%96%B9%E5%BC%8F%E5%90%AF%E5%8A%A8Harbor"><span class="toc-number">2.4.</span> <span class="toc-text">官方方式启动Harbor</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mongodb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-14-MongoDB"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-14-MongoDB/" title="综合架构-DBA-14-MongoDB">综合架构-DBA-14-MongoDB</a><time datetime="2020-09-28T06:45:34.000Z" title="发表于 2020-09-28 14:45:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/redis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-13-Redis"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-13-Redis/" title="综合架构-DBA-13-Redis">综合架构-DBA-13-Redis</a><time datetime="2020-09-28T06:45:04.000Z" title="发表于 2020-09-28 14:45:04">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-12-Mycat"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-12-Mycat/" title="综合架构-DBA-12-Mycat">综合架构-DBA-12-Mycat</a><time datetime="2020-09-28T06:44:34.000Z" title="发表于 2020-09-28 14:44:34">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-11-Atlas"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-11-Atlas/" title="综合架构-DBA-11-Atlas">综合架构-DBA-11-Atlas</a><time datetime="2020-09-28T06:43:19.000Z" title="发表于 2020-09-28 14:43:19">2020-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/mysql.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="综合架构-DBA-10-MHA高可用技术"/></a><div class="content"><a class="title" href="/2020/09/28/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84-DBA-10-MHA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%8A%80%E6%9C%AF/" title="综合架构-DBA-10-MHA高可用技术">综合架构-DBA-10-MHA高可用技术</a><time datetime="2020-09-28T06:42:46.000Z" title="发表于 2020-09-28 14:42:46">2020-09-28</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitee.com/kinmfer/BlogImages/raw/master/img/docker.jpg)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Kinmfer</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://kinmfer.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: 'vSKb5nQqvUv44yjbvGjUmk3E-gzGzoHsz',
+      appKey: '4TRbJGECRE8pcN777qgBXsKO',
+      placeholder: '记得留下你的昵称和邮箱,可以快速收到回复哦~',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_����":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_͵Ц":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_�ټ�":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_��Į":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_��ŭ":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_�ɰ�":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_��Ѫ":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_��":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_Ż��":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_��Ц":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_���":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_ί��":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_΢Ц":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_˼��":"90cf159733e558137ed20aa04d09964436f618a1.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Valine' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="//code.tidio.co/mzqu2o1lbhle9bvhab8bexgtiyxgkheb.js" async="async"></script><script>function onTidioChatApiReady() {
+  window.tidioChatApi.hide();
+  window.tidioChatApi.on("close", function() {
+    window.tidioChatApi.hide();
+  });
+}
+if (window.tidioChatApi) {
+  window.tidioChatApi.on("ready", onTidioChatApiReady);
+} else {
+  document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+}
+
+var chatBtnFn = () => {
+  document.getElementById("chat_btn").addEventListener("click", function(){
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
+  });
+}
+chatBtnFn()
+</script></div></body></html>
