@@ -1335,7 +1335,7 @@ canvas:not(#ribbon-canvas),
   }
 }
 :root {
-  --global-font-size: 14px;
+  --global-font-size: 15px;
   --global-bg: #fff;
   --font-color: #4c4948;
   --hr-border: #d2ebfd;
@@ -1376,7 +1376,7 @@ body {
   background: var(--global-bg);
   color: var(--font-color);
   font-size: var(--global-font-size);
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", "Helvetica Neue", Lato, Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC Medium", "PingFang SC", "Microsoft YaHei", "Segoe UI", "Helvetica Neue", Lato, Roboto, sans-serif;
   line-height: 2;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
@@ -1699,8 +1699,8 @@ blockquote footer cite:before {
 }
 #article-container pre,
 #article-container code {
-  font-size: 14px;
-  font-family: consolas, "Source Code Pro Medium", "Source Code Pro", Monaco, Menlo !important;
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Source Code Pro Medium", "Source Code Pro", Monaco, consolas, Menlo !important;
 }
 #article-container code {
   padding: 0.1rem 0.2rem;
@@ -1730,7 +1730,7 @@ blockquote footer cite:before {
 #article-container figure.highlight figcaption,
 #article-container figure.highlight .caption {
   padding: 0.3rem 0 0.1rem 0.7rem;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1em;
 }
 #article-container figure.highlight figcaption a,
@@ -1762,7 +1762,7 @@ blockquote footer cite:before {
   height: 2.15em;
   background: #1c1c1c;
   color: rgba(238,255,255,0.8);
-  font-size: 14px;
+  font-size: 15px;
 }
 #article-container .highlight-tools.closed + table {
   display: none;
