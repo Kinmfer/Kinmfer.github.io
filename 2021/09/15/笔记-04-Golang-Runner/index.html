@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>笔记-04-Golang Runner | Kinmfer's Blogs</title><meta name="keywords" content="GO"><meta name="author" content="Kinmfer,kinmfer@foxmail.com"><meta name="copyright" content="Kinmfer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374package commonimport (	&quot;errors&quot;	&quot;os&quot;	&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记-04-Golang Runner">
+<meta property="og:url" content="https://kinmfer.github.io/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/index.html">
+<meta property="og:site_name" content="Kinmfer&#39;s Blogs">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374package commonimport (	&quot;errors&quot;	&quot;os&quot;	&amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png">
+<meta property="article:published_time" content="2021-09-15T00:52:58.000Z">
+<meta property="article:modified_time" content="2021-09-15T00:53:54.103Z">
+<meta property="article:author" content="Kinmfer">
+<meta property="article:tag" content="GO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kinmfer.github.io/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c46ed77365f502de73543fbf10399875";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"C2N62A47W9","apiKey":"0c62f17095ec2a20c19657511a42c0b1","indexName":"Blogs","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇文章更新于","messageNext":"天前,内容可能已经过时"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":200,"languages":{"author":"作者: Kinmfer","link":"链接: ","source":"来源: Kinmfer's Blogs","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '笔记-04-Golang Runner',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-09-15 08:53:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kinmfer's Blogs</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">笔记-04-Golang Runner</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-15T00:52:58.000Z" title="发表于 2021-09-15 08:52:58">2021-09-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-15T00:53:54.103Z" title="更新于 2021-09-15 08:53:54">2021-09-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/GO/">GO</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">500</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="笔记-04-Golang Runner"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> common</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;errors&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;os/signal&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ErrTimeOut = errors.New(<span class="string">&quot;执行者执行超时&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> ErrInterrupt = errors.New(<span class="string">&quot;执行者被中断&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//一个执行者，可以执行任何任务，但是这些任务是限制完成的，</span></span><br><span class="line"><span class="comment">//该执行者可以通过发送终止信号终止它</span></span><br><span class="line"><span class="keyword">type</span> Runner <span class="keyword">struct</span> &#123;</span><br><span class="line">	tasks     []<span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>)</span>      //要执行的任务</span></span><br><span class="line">	complete  <span class="keyword">chan</span> error       <span class="comment">//用于通知任务全部完成</span></span><br><span class="line">	timeout   &lt;-<span class="keyword">chan</span> time.Time <span class="comment">//这些任务在多久内完成</span></span><br><span class="line">	interrupt <span class="keyword">chan</span> os.Signal   <span class="comment">//可以控制强制终止的信号</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">(tm time.Duration)</span> *<span class="title">Runner</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Runner&#123;</span><br><span class="line">		complete:  <span class="built_in">make</span>(<span class="keyword">chan</span> error),</span><br><span class="line">		timeout:   time.After(tm),</span><br><span class="line">		interrupt: <span class="built_in">make</span>(<span class="keyword">chan</span> os.Signal, <span class="number">1</span>),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将需要执行的任务，添加到Runner里</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Runner)</span> <span class="title">Add</span><span class="params">(tasks ...<span class="keyword">func</span>(<span class="keyword">int</span>)</span>)</span> &#123;</span><br><span class="line">	r.tasks = <span class="built_in">append</span>(r.tasks, tasks...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行任务，执行的过程中接收到中断信号时，返回中断错误</span></span><br><span class="line"><span class="comment">//如果任务全部执行完，还没有接收到中断信号，则返回nil</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Runner)</span> <span class="title">run</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> id, task := <span class="keyword">range</span> r.tasks &#123;</span><br><span class="line">		<span class="keyword">if</span> r.isInterrupt() &#123;</span><br><span class="line">			<span class="keyword">return</span> ErrInterrupt</span><br><span class="line">		&#125;</span><br><span class="line">		task(id)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//检查是否接收到了中断信号</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Runner)</span> <span class="title">isInterrupt</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-r.interrupt:</span><br><span class="line">		signal.Stop(r.interrupt)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//开始执行所有任务，并且监视通道事件</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Runner)</span> <span class="title">Start</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">//希望接收哪些系统信号</span></span><br><span class="line">	signal.Notify(r.interrupt, os.Interrupt)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		r.complete &lt;- r.run()</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> err := &lt;-r.complete:</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	<span class="keyword">case</span> &lt;-r.timeout:</span><br><span class="line">		<span class="keyword">return</span> ErrTimeOut</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>complete</code>是一个无缓冲通道，也就是同步通道，因为我们要使用它来控制我们整个程序是否终止，所以它必须是同步通道，要让main routine等待，一致要任务完成或者被强制终止。</p>
+<p><code>interrupt</code>是一个有缓冲的通道，这样做是因为，我们可以至少接收到一个操作系统的中断信息，这样Go runtime在发送这个信号的时候不会被阻塞，如果是无缓冲的通道就会阻塞了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:kinmfer@foxmail.com">Kinmfer</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://kinmfer.github.io/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/">https://kinmfer.github.io/2021/09/15/笔记-04-Golang-Runner/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Kinmfer.github.io" target="_blank">Kinmfer's Blogs</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/GO/">GO</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/09/15/%E7%AC%94%E8%AE%B0-03-Golang%E6%8E%A5%E5%8F%A3%E5%9E%8B%E5%87%BD%E6%95%B0/"><img class="next-cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">笔记-03-Golang接口型函数</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/01/25/GOLANG-01-变量常量/" title="GOLANG-01-变量常量"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-01-变量常量</div></div></a></div><div><a href="/2021/01/25/GOLANG-03-运算符/" title="GOLANG-03-运算符"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-03-运算符</div></div></a></div><div><a href="/2021/01/25/GOLANG-02-数据类型/" title="GOLANG-02-数据类型"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-02-数据类型</div></div></a></div><div><a href="/2021/01/25/GOLANG-04-流程控制/" title="GOLANG-04-流程控制"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-04-流程控制</div></div></a></div><div><a href="/2021/01/25/GOLANG-05-数组/" title="GOLANG-05-数组"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-05-数组</div></div></a></div><div><a href="/2021/01/25/GOLANG-06-切片/" title="GOLANG-06-切片"><img class="cover" src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-25</div><div class="title">GOLANG-06-切片</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Livere</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzMi8yODQxMw=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kinmfer</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kinmfer"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Kinmfer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:kinmfer@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！本博客用于记录一些学习过程中的文章，包括原创，也包括转录其他大神的博客。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/" title="笔记-04-Golang Runner"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="笔记-04-Golang Runner"/></a><div class="content"><a class="title" href="/2021/09/15/%E7%AC%94%E8%AE%B0-04-Golang-Runner/" title="笔记-04-Golang Runner">笔记-04-Golang Runner</a><time datetime="2021-09-15T00:52:58.000Z" title="发表于 2021-09-15 08:52:58">2021-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/15/%E7%AC%94%E8%AE%B0-03-Golang%E6%8E%A5%E5%8F%A3%E5%9E%8B%E5%87%BD%E6%95%B0/" title="笔记-03-Golang接口型函数"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="笔记-03-Golang接口型函数"/></a><div class="content"><a class="title" href="/2021/09/15/%E7%AC%94%E8%AE%B0-03-Golang%E6%8E%A5%E5%8F%A3%E5%9E%8B%E5%87%BD%E6%95%B0/" title="笔记-03-Golang接口型函数">笔记-03-Golang接口型函数</a><time datetime="2021-09-15T00:52:20.000Z" title="发表于 2021-09-15 08:52:20">2021-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/11/%E7%AC%94%E8%AE%B0-02-Golang%E6%B3%A8%E6%84%8F%E7%82%B9/" title="笔记-02-Golang注意点"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="笔记-02-Golang注意点"/></a><div class="content"><a class="title" href="/2021/09/11/%E7%AC%94%E8%AE%B0-02-Golang%E6%B3%A8%E6%84%8F%E7%82%B9/" title="笔记-02-Golang注意点">笔记-02-Golang注意点</a><time datetime="2021-09-11T03:39:21.000Z" title="发表于 2021-09-11 11:39:21">2021-09-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/09/10/%E7%AC%94%E8%AE%B0-01-%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8F%AF%E9%9D%A0%E7%9A%84shell%E8%84%9A%E6%9C%AC/" title="笔记-01-如何编写可靠的shell脚本"><img src="https://gitee.com/Kinmfer/BlogImages/raw/master/img/1soSr8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="笔记-01-如何编写可靠的shell脚本"/></a><div class="content"><a class="title" href="/2021/09/10/%E7%AC%94%E8%AE%B0-01-%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8F%AF%E9%9D%A0%E7%9A%84shell%E8%84%9A%E6%9C%AC/" title="笔记-01-如何编写可靠的shell脚本">笔记-01-如何编写可靠的shell脚本</a><time datetime="2021-09-10T11:25:37.000Z" title="发表于 2021-09-10 19:25:37">2021-09-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/22/Vue-2.x%E7%AC%94%E8%AE%B0/" title="Vue 2.x笔记"><img src="https://gitee.com/kinmfer/BlogImages/raw/master/img/vue.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue 2.x笔记"/></a><div class="content"><a class="title" href="/2021/05/22/Vue-2.x%E7%AC%94%E8%AE%B0/" title="Vue 2.x笔记">Vue 2.x笔记</a><time datetime="2021-05-22T11:30:24.000Z" title="发表于 2021-05-22 19:30:24">2021-05-22</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/kinmfer/BlogImages/raw/master/img/GO.png')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By Kinmfer</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://kinmfer.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'vSKb5nQqvUv44yjbvGjUmk3E-gzGzoHsz',
+      appKey: '4TRbJGECRE8pcN777qgBXsKO',
+      placeholder: '记得留下你的昵称和邮箱,可以快速收到回复哦~',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_����":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_͵Ц":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_�ټ�":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_��Į":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_��ŭ":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_�ɰ�":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_��Ѫ":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_��":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_Ż��":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_��Ц":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_���":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_ί��":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_΢Ц":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_˼��":"90cf159733e558137ed20aa04d09964436f618a1.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Valine' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script></div><script src="//code.tidio.co/mzqu2o1lbhle9bvhab8bexgtiyxgkheb.js" async="async"></script><script>function onTidioChatApiReady() {
+  window.tidioChatApi.hide();
+  window.tidioChatApi.on("close", function() {
+    window.tidioChatApi.hide();
+  });
+}
+if (window.tidioChatApi) {
+  window.tidioChatApi.on("ready", onTidioChatApiReady);
+} else {
+  document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+}
+
+var chatBtnFn = () => {
+  document.getElementById("chat_btn").addEventListener("click", function(){
+    window.tidioChatApi.show();
+    window.tidioChatApi.open();
+  });
+}
+chatBtnFn()
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
